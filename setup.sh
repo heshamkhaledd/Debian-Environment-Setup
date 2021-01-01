@@ -5,13 +5,12 @@ echo "This script downloads the necessary packages"
 echo -e "_____________________________________________\n\n"
 
 
-dirct=${HOME}/Desktop/
+dirct=${HOME}/Desktop
 output="CHECK_THIS"
 mkdir -p ${dirct}/${output}
 cd ${dirct}/${output}
 echo -e "Install Your Gnome Extensions from: https://extensions.gnome.org/ \n\t 1.Activities configurator,\n\t 2.Dash to Dock,\n\t 3.User Themes,\n\t 4.Show Desktop Button" > notes.txt
 echo -e "\n Move your Spotify tracks from Windows to Linux" >> notes.txt
-cd ${dirct}
 
 
 echo -e "*****Updating System Dependencies*****\n"
@@ -24,6 +23,14 @@ echo -e "*****Adjusting Grub to Windows*****\n"
 
 echo -e "*****Installing Common Apps*****\n"
 
+echo "Changing Wallpaper"
+cd ${HOME}
+yes Y | wget -q https://download1349.mediafire.com/66fkie8v7mtg/8xow4969hoyszpc/kde2.jpg
+gsettings set org.gnome.desktop.background picture-uri file:${HOME}/kde2.jpg
+yes Y | wget -q https://download1475.mediafire.com/tjf41osrpikg/eda2ukcp4l23t77/Terminator-512.png
+cd ${dirct}/${output}
+echo -e "\nChange Activities configurator icon, You'll find it in home" >> notes.txt
+
 echo "Installing Google Chrome"
 yes Y | wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 echo  "Installing Spotify"
@@ -34,9 +41,6 @@ echo "Installing Piper"
 sudo apt-get -y install piper
 echo "Installing Gnome Tweak Tool"
 sudo apt-get -y install gnome-tweak-tool
-echo "Installing Mojave System Theme"
-yes Y | wget -q -P ${dirct}/${output} https://dllb2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE2MDcwNjY4MjIiLCJ1IjpudWxsLCJsdCI6ImRvd25sb2FkIiwicyI6ImIzZjExMWM1MzQwYzE1ZjU2ZDdmNGIxZTFmMmUzOTFlMmJhMWNiMTY3MGNiMjIzZGY2NDhjZTFlMGU0YTAyYTc1MDAwZGZhZWEwMTMwMDA5YmNmYzg5M2NhMTc3NTcyYjM4MTc5MjVhNzc4YmNkMWM3M2RkOWE4YTlmMTdjNmVjIiwidCI6MTYwOTIxMzM4OSwic3RmcCI6IjE0ZTliNzc2ZmMyMGM3Y2ZkY2JjMzVkZGIwMDQ2ZTk1Iiwic3RpcCI6IjE1Ni4yMjMuMS41NCJ9.rcb-XAb3yMm0kgtwcmN22oWpWS-hclx-dhc_FPiirao/Mojave-dark-solid.tar.xz
-yes Y | wget -q -P ${dirct}/${output} https://dllb2.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE2MDc0MDk2MzUiLCJ1IjpudWxsLCJsdCI6ImRvd25sb2FkIiwicyI6IjMzYWRjYzM5ZDRjZDk1ZmJlMzliNjA0Yzc4OGZlZjBlZWQzODUxZDI0NWRmMjdhNTRmZTI4MWVhOTc0M2MzNGVjOWU5ZWNhNGVhZWI3YWFlZGRiOGJkYzA0N2IxY2Y2ZWE1NmVkMWFkNmMzOGQwMDI1NTE5OTcxNDMzNDQ1MmZlIiwidCI6MTYwOTIxMzYwMCwic3RmcCI6IjE0ZTliNzc2ZmMyMGM3Y2ZkY2JjMzVkZGIwMDQ2ZTk1Iiwic3RpcCI6IjE1Ni4yMjMuMS41NCJ9.cPAD831-zdOUmNguYHPCfExUrrhbi88dE28L3Jq17VE/01-McMojave-circle.tar.xz
 echo "Installing NeoFetch"
 sudo apt-get -y install neofetch
 echo "Installing CMatrix"
@@ -55,6 +59,22 @@ echo "Installing Syncplay"
 yes Y | wget -q -P ${dirct}/${output} https://github.com/Syncplay/syncplay/releases/download/v1.6.7/syncplay_1.6.7.deb
 echo "Installing Slack"
 yes Y | wget -q -P ${dirct}/${output} https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.0-amd64.deb
+echo "Installing unzip"
+sudo apt-get -y install unzip
+echo "Installing Mojave System Theme"
+#This will be extracted and moved to ${HOME}/.themes
+yes Y | wget -q -P ${dirct}/${output} https://download849.mediafire.com/llbfsdmcpyfg/u6i0m3m5ibjgzhk/Mojave-dark-solid.tar.xz
+tar -xf Mojave-dark-solid.tar.xz
+mkdir -p ${HOME}/.themes
+mv ${dirct}/${output}/Mojave-dark-solid ${HOME}/.themes
+
+# Repository: https://codeload.github.com/vinceliuice/McMojave-circle/zip/master
+yes Y | wget -q -P ${dirct}/${output} https://download938.mediafire.com/ic6fvlz2fm6g/xzm544nh3691fzv/master
+unzip master
+cd ${dirct}/${output}/McMojave-circle-master
+./install.sh
+cd ..
+
 
 echo -e "*****Setting up Work Environment*****\n"
 
@@ -71,6 +91,7 @@ echo "Installing ROS-SERIAL Noetic"
 yes Y | wget -c https://raw.githubusercontent.com/qboticslabs/ros_install_noetic/master/ros_install_noetic.sh && chmod +x ./ros_install_noetic.sh && ./ros_install_noetic.sh
 sudo apt-get -y install python3-roslaunch
 sudo apt-get -y install python3-rosnode
+sudo apt-get -y install python3-serial
 echo "Installing Remmina"
 sudo apt-get -y install remmina
 echo "Installing Arduino IDE"
